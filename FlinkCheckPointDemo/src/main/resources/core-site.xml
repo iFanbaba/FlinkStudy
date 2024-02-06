@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="configuration.xsl"?>
+<configuration>
+<!--指定NameNode的地址，9820是rpc端口号不是网页端口号，是用于请求文件和standing Namenode与之通信的端口号。在1代版本中是8020。2代版本中是9000，3代先是9820后改为8020-->
+    <property>
+        <name>fs.defaultFS</name>
+        <value>hdfs://node1:9820</value>
+</property>
+<!--指定hadoop数据的存储目录.该数据为namenode的edits、fsimage和datanode的具体文件数据，但具体路径还需进一步指定。后序指定的时候会引用这个路径-->
+    <property>
+        <name>hadoop.tmp.dir</name>
+        <value>/opt/moudle/hadoop/install/hadoop-3.1.4/data</value>
+</property>
+<!-- 配置HDFS网页登录使用的静态用户为atguigu -->
+<!-- 配置之后才允许在hdfs网页进行操作，hadoop一般需要配置kerberos来进行身份认证，这里是指定了一个固定的用户。不管谁打开web都是atguigu用户处理，相当于是hdfs超级用户。在hdfs中，启动hdfs进程的用户称为超级用户 -->
+    <property>
+        <name>hadoop.http.staticuser.user</name>
+        <value>root</value>
+</property>
+<!-- 配置该atguigu(superUser)允许通过代理访问的主机节点 -->
+<!-- 代理用户给hive的server tool，server tool可以代理其他用户访问hdfs。代理的效果是：一个B用户启动beeline客户端，提交一个sql，最后去hdfs上读取数据的是还是用户B。代理用户负责接收请求和提交任务，核心任务还是用户B自己。-->
+    <property>
+        <name>hadoop.proxyuser.atguigu.hosts</name>
+        <!--*表示atguigu可以代理任何结点上的用户-->
+<value>*</value>
+</property>
+<!-- 配置该atguigu(superUser)允许通过代理用户所属组 -->
+    <property>
+        <name>hadoop.proxyuser.atguigu.groups</name>
+        <!--*表示atguigu可以代理所有组的用户-->
+        <value>*</value>
+</property>
+<!-- 配置该atguigu(superUser)允许通过代理的用户-->
+    <property>
+        <name>hadoop.proxyuser.atguigu.users</name>
+        <!--*表示atguigu可以代理所有用户-->
+        <value>*</value>
+</property>
+
+    <property>
+        <name>hadoop.proxyuser.Lenovo.hosts</name>
+        <value>*</value>
+    </property>
+    <property>
+        <name>hadoop.proxyuser.Lenovo.groups</name>
+        <value>*</value>
+    </property>
+    <property>
+        <name>hadoop.proxyuser.Lenovo.users</name>
+        <value>*</value>
+    </property>
+    <property>
+        <name>hadoop.proxyuser.Lenovo.hosts.allow</name>
+        <value>*</value>
+    </property>
+    <property>
+        <name>hadoop.proxyuser.Lenovo.groups.allow</name>
+        <value>*</value>
+    </property>
+    <property>
+        <name>hadoop.proxyuser.Lenovo.users.allow</name>
+        <value>*</value>
+    </property>
+	<property>
+        <name>hadoop.proxyuser.root.hosts</name>
+        <value>*</value>
+	</property>
+	<property>
+        <name>hadoop.proxyuser.root.groups</name>
+        <value>*</value>
+	</property>
+</configuration>
